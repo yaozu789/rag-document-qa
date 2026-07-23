@@ -1,0 +1,27 @@
+NORTHWIND LABS EMPLOYEE HANDBOOK
+
+Office Hours
+The main office is open Monday through Friday, 8:30 AM to 6:00 PM Pacific Time.
+The office is closed on weekends and all company holidays. Badge access outside
+these hours requires written approval from a department head.
+
+Remote Work
+Employees may work remotely up to three days per week. Fully remote arrangements
+require approval from both your manager and the People Operations team. All
+remote employees must be reachable during core hours, which are 10:00 AM to
+3:00 PM Pacific Time.
+
+Equipment
+Every new employee receives a laptop, an external monitor, and a headset. Laptop
+refresh happens every three years. Damaged equipment should be reported to
+it-help@northwindlabs.example within 48 hours of the incident.
+
+Paid Time Off
+Full-time employees accrue 15 days of paid vacation per year during their first
+two years, increasing to 20 days per year starting in year three. Unused
+vacation carries over up to a maximum of 10 days. Sick leave is separate and
+accrues at 10 days per year with no cap on carryover.
+
+Parking
+The garage on Fulton Street offers 40 reserved spots on a first-come basis.
+Monthly parking passes cost 85 dollars and are payroll deductible.

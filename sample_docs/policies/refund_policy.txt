@@ -1,0 +1,26 @@
+NORTHWIND LABS CUSTOMER REFUND POLICY
+
+Standard Refunds
+Customers may request a full refund within 30 days of purchase for any reason.
+Refunds are processed to the original payment method and typically appear within
+5 to 7 business days.
+
+Annual Subscriptions
+Annual subscriptions are eligible for a prorated refund if cancelled after the
+initial 30 day window. The prorated amount is calculated from the cancellation
+date through the end of the paid term, minus a 10 percent administrative fee.
+
+Non-Refundable Items
+Setup fees, professional services engagements, and custom integration work are
+non-refundable once work has begun. Training sessions are refundable only if
+cancelled at least 5 business days before the scheduled date.
+
+Enterprise Contracts
+Enterprise customers with contracts above 50,000 dollars annually are governed
+by the refund terms in their individual master service agreement, which
+supersede this policy.
+
+Disputes
+Refund disputes should be escalated to billing-support@northwindlabs.example.
+Unresolved disputes after 14 days are reviewed by the Director of Customer
+Success.
