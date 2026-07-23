@@ -45,13 +45,9 @@ embeddings since they don't offer their own embedding model.
 
 ## Usage
 
-A `sample_docs/` folder ships with this project so you can test immediately
-without supplying your own files. See `TEST_QUESTIONS.md` for questions with
-known answers.
-
 ```bash
 # index a folder of .txt, .md, and .pdf files (searches subfolders too)
-python rag.py ingest --folder ./sample_docs
+python rag.py ingest --folder ./my_docs
 
 # ask a single question
 python rag.py ask --question "What is the refund policy?"
@@ -63,11 +59,50 @@ python rag.py ask --question "What is the refund policy?" --show-chunks
 python rag.py ask
 ```
 
-The folder you pass to `ingest` must already exist. The only thing created
-automatically is `./chroma_db`, the vector database.
-
 The vector database is written to `./chroma_db` on local disk. Re-running
 `ingest` upserts, so changed files update in place instead of duplicating.
+
+## Deployment (AWS)
+
+This has also been deployed and run end-to-end on real AWS infrastructure, not
+just locally.
+
+**Architecture:**
+- **S3** (`yaozuli-rag-docs`) holds the source documents. This replaces the
+  local `--folder` argument as the source of truth for what gets ingested.
+- **EC2** (Amazon Linux 2023, t2.micro) runs the actual pipeline — Python,
+  dependencies, and both API keys (`ANTHROPIC_API_KEY`, `VOYAGE_API_KEY`) live
+  here as environment variables.
+- **IAM** governs access: a dedicated IAM user (not root) with
+  `AdministratorAccess` for setup, and the EC2 instance authenticates to S3 via
+  AWS CLI credentials configured on the box.
+
+**Deploy steps:**
+```bash
+# on the EC2 instance
+sudo dnf install -y python3.11 python3.11-pip git awscli
+aws configure                              # IAM user access key + region
+pip3.11 install -r requirements.txt --user
+
+# pull source docs from S3 instead of a local folder
+mkdir -p ~/my_docs
+aws s3 sync s3://yaozuli-rag-docs ~/my_docs
+
+# run as normal, pointed at the synced folder
+python3.11 rag.py ingest --folder ~/my_docs
+python3.11 rag.py ask --question "..."
+```
+
+**Why this setup, not something fancier:** the goal was to actually stand up
+the three most foundational AWS primitives correctly (storage, compute,
+identity/access) rather than reach for managed services (Lambda, RDS, etc.)
+that would hide how the pieces fit together. S3 stores, EC2 computes, IAM gates
+who can do either.
+
+**Known limitation:** this is a manual deploy, not automated (no
+Terraform/CloudFormation, no CI/CD). The instance is stopped between uses
+rather than left running, since this is a personal project, not a production
+service.
 
 ## Design choices worth knowing
 
@@ -79,11 +114,9 @@ appears intact in at least one chunk. Both are tunable at the top of `rag.py`.
 **top_k = 4.** How many chunks get pasted into the prompt. More chunks means
 better recall but more noise and more tokens (cost). Also tunable.
 
-**Temperature.** Not set here. `temperature` is deprecated for the current
-Sonnet model and the API rejects it. On models that still accept it, a value
-near 0 makes generation near-deterministic, which is what you'd want for factual
-document Q&A. Consistency here now comes from the retrieval step (same question
-retrieves the same chunks) plus the tightly constrained system prompt.
+**temperature = 0.** Near-deterministic generation, so the same question gives
+the same answer. For a factual document-Q&A tool you want consistency, not
+creativity.
 
 **"Answer only from the context."** The system prompt forbids outside knowledge
 and requires citing excerpt numbers, and explicitly permits saying "the context
