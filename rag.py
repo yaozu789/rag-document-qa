@@ -55,20 +55,31 @@ TOP_K = 4                        # how many chunks to retrieve per question
 # Stage 1: LOAD -- read files off disk, extract raw text. Plain code, no AI.
 # ---------------------------------------------------------------------------
 
+TEXT_SUFFIXES = {
+    ".txt", ".md", ".rst",
+    ".py", ".js", ".ts", ".java", ".go", ".c", ".h", ".cpp", ".sql", ".sh",
+    ".json", ".yaml", ".yml", ".toml", ".csv", ".ini", ".cfg",
+}
+
+
 def load_documents(folder: str) -> list[tuple[str, str]]:
     """Return a list of (filename, full_text) for every supported file."""
     folder_path = Path(folder)
     if not folder_path.is_dir():
         sys.exit(f"ERROR: '{folder}' is not a directory.")
 
+    skip_dirs = {".git", "__pycache__", "node_modules", ".venv", "venv", "chroma_db"}
+
     docs = []
     for path in sorted(folder_path.rglob("*")):
         if not path.is_file():
             continue
+        if any(part in skip_dirs for part in path.parts):
+            continue
 
         suffix = path.suffix.lower()
         try:
-            if suffix in {".txt", ".md"}:
+            if suffix in TEXT_SUFFIXES:
                 text = path.read_text(encoding="utf-8", errors="ignore")
             elif suffix == ".pdf":
                 from pypdf import PdfReader

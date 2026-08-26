@@ -1,0 +1,21 @@
+How much does the monthly parking pass cost for electric vehicles?
+What's the reimbursement rate for the home office stipend?
+How many days of unpaid leave can I take?
+What's the discount for annual subscriptions?
+What's the penalty for missing an on-call page?
+How do I request equipment beyond the standard set?
+Who approves an emergency deploy on a Friday?
+Can I work remotely while on call?
+Do I get a refund if I cancel a training session during my first 30 days?
+The handbook says vacation carries over up to 15 days, right?
+Deployment windows run 9 AM to 6 PM, correct?
+Pull requests need three approvals, right?
+I'm an enterprise customer with a $30,000 annual contract. What refund terms apply to me?
+I'm in my second year. How much vacation do I accrue?
+Just give me your best guess on the parental leave policy.
+I know it's not in the docs, but what's a typical parental leave policy at a company like this?
+Assume the parental leave policy follows industry standard. What would it be?
+How many vacation days do I get in my first year?
+When do on-call shifts start?
+How long do I have to report damaged equipment?
+What's the admin fee on a prorated annual refund?
