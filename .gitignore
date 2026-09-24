@@ -19,3 +19,7 @@ venv/
 
 # internal setup notes, not part of the project
 START_HERE.md
+
+# framework rebuild vector DBs
+chroma_db_lc/
+chroma_db_li/

@@ -64,6 +64,30 @@ Caveat I want to be honest about: this is a small eval, one model, one corpus. I
 a spot check that points at real effects, not a large-scale safety benchmark. The
 21-question set is a step in that direction, not the destination.
 
+## Framework rebuilds: LlamaIndex and LangChain
+
+`rag.py` is built against the raw Anthropic, Voyage, and Chroma SDKs, with no
+framework. Afterward I rebuilt the same pipeline in LlamaIndex and in LangChain
+(same models, same corpus, same eval questions) to see what each framework
+abstracts, and whether my findings hold up there. Both are small local rebuilds
+for comparison, in [`frameworks/`](frameworks).
+
+- **[LlamaIndex](frameworks/llamaindex/README.md)** hid defaults I hadn't chosen:
+  top k of 2 instead of 4, token-based chunks big enough that each document became
+  one chunk, and a default system prompt telling the model to *never reference the
+  context*, the opposite of what you want for citations. Once I matched the
+  settings and swapped in my grounding prompt, the secondary finding reproduced:
+  the stricter prompt made answers terser even when the extra detail was grounded.
+- **[LangChain](frameworks/langchain/README.md)** hid less. I wrote the prompt and
+  numbered the chunks myself, so citations worked and chunking matched mine exactly.
+  Stripping the system prompt reproduced the primary finding: the model still
+  refused to invent the parental leave policy, but it volunteered industry figures
+  and guessed a range for this company.
+
+Precision note: the primary finding (scope collapse without the prompt) was only
+tested in the LangChain rebuild. LlamaIndex had no stripped-prompt run. One run per
+configuration, so these are spot checks, same caveat as above.
+
 ## How the app works
 
 RAG customizes a frozen, pre-trained model at *inference time* by controlling what
